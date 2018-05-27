@@ -3,12 +3,12 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-public class Bonus2 extends JFrame
+public class Program2 extends JFrame
 		implements ActionListener
 {
 	private JTextField input, result;
 
-	public Bonus2()
+	public Program2()
 	{
 		super("String test");
 		Box box1 = Box.createVerticalBox();
@@ -42,62 +42,34 @@ public class Bonus2 extends JFrame
 		String str = input.getText();
 
 		// ... insert code to process str or call a method here
-		str = reverseTags(str);
+		str = compute(str);
 
 		result.setText(str);
 		input.selectAll();
 	}
 
-	public String reverseTags(String str)
+	public String compute(String str)
 	{
-		StringBuilder newstr = new StringBuilder(0);
-		// Check if formatting is correct
-		int countOpen = 0;
-		int countClose = 0;
-		for(int i = 0; i < str.length(); i++)
+		double sum = 0;
+		int count = 0;
+		int i = 0;
+		while(true)
 		{
-			if(str.substring(i).startsWith("<r>"))
-				countOpen++;
-			else if(str.substring(i).startsWith("</r>"))
+			count++;
+			if(str.indexOf(", ", i) == -1)
 			{
-				if(countOpen == countClose+1)
-					countClose++;
-				else
-					return "Error: Incorrect Format";
+				sum += Double.parseDouble(str.substring(i, str.length()));
+				break;
 			}
+			sum += Double.parseDouble(str.substring(i, str.indexOf(", ", i)));
+			i = str.indexOf(", ", i) + 2;
 		}
-		if(countOpen != countClose)
-			return "Error: Incorrect Format";
-
-		// Go through and reverse any strings that need reversing
-		for(int i = 0; i < str.length(); i++)
-		{
-			if (str.substring(i).startsWith("<r>"))
-			{
-				newstr.append(reverse(str.substring(i+3, str.indexOf("</r>", i+3))));
-				i = str.indexOf("</r>", i+3)+4;
-			}
-			else
-			{
-				newstr.append(str.charAt(i));
-			}
-		}
-		return newstr.toString();
-	}
-
-	public String reverse(String str)
-	{
-		StringBuilder newstr = new StringBuilder(0);
-		for(int i = 0; i < str.length(); i++)
-		{
-			newstr.append(str.charAt(str.length()-i-1));
-		}
-		return newstr.toString();
+		return Double.toString(sum/count);
 	}
 
 	public static void main(String[] args)
 	{
-		Bonus2 window = new Bonus2();
+		Program2 window = new Program2();
 		window.setBounds(100, 100, 300, 100);
 		window.setDefaultCloseOperation(EXIT_ON_CLOSE);
 		window.setVisible(true);

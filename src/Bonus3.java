@@ -3,12 +3,12 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-public class Bonus2 extends JFrame
+public class Bonus3 extends JFrame
 		implements ActionListener
 {
 	private JTextField input, result;
 
-	public Bonus2()
+	public Bonus3()
 	{
 		super("String test");
 		Box box1 = Box.createVerticalBox();
@@ -42,62 +42,44 @@ public class Bonus2 extends JFrame
 		String str = input.getText();
 
 		// ... insert code to process str or call a method here
-		str = reverseTags(str);
+		str = correct(str);
 
 		result.setText(str);
 		input.selectAll();
 	}
 
-	public String reverseTags(String str)
+	public String correct(String str)
 	{
 		StringBuilder newstr = new StringBuilder(0);
-		// Check if formatting is correct
-		int countOpen = 0;
-		int countClose = 0;
+		boolean cap = true;
 		for(int i = 0; i < str.length(); i++)
 		{
-			if(str.substring(i).startsWith("<r>"))
-				countOpen++;
-			else if(str.substring(i).startsWith("</r>"))
+			if(Character.toLowerCase(str.charAt(i)) == 'i')
+				newstr.append('I');
+			else if(str.charAt(i) == '.')
 			{
-				if(countOpen == countClose+1)
-					countClose++;
-				else
-					return "Error: Incorrect Format";
-			}
-		}
-		if(countOpen != countClose)
-			return "Error: Incorrect Format";
-
-		// Go through and reverse any strings that need reversing
-		for(int i = 0; i < str.length(); i++)
-		{
-			if (str.substring(i).startsWith("<r>"))
-			{
-				newstr.append(reverse(str.substring(i+3, str.indexOf("</r>", i+3))));
-				i = str.indexOf("</r>", i+3)+4;
+				cap = true;
+				newstr.append('.');
 			}
 			else
 			{
-				newstr.append(str.charAt(i));
+				if (cap && Character.isAlphabetic(str.charAt(i)))
+				{
+					newstr.append(Character.toUpperCase(str.charAt(i)));
+					cap = false;
+				}
+				else
+					newstr.append(Character.toLowerCase(str.charAt(i)));
 			}
-		}
-		return newstr.toString();
-	}
 
-	public String reverse(String str)
-	{
-		StringBuilder newstr = new StringBuilder(0);
-		for(int i = 0; i < str.length(); i++)
-		{
-			newstr.append(str.charAt(str.length()-i-1));
 		}
+
 		return newstr.toString();
 	}
 
 	public static void main(String[] args)
 	{
-		Bonus2 window = new Bonus2();
+		Bonus3 window = new Bonus3();
 		window.setBounds(100, 100, 300, 100);
 		window.setDefaultCloseOperation(EXIT_ON_CLOSE);
 		window.setVisible(true);
