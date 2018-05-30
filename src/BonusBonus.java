@@ -10,11 +10,11 @@ public class BonusBonus
 		int sum = 0;
 		for(int i = 1; i <= 1000; i++)
 		{
-			sumAnd += length(spelling(i, true));
+			sumAnd += spelling(i, true).length();
 		}
 		for(int i = 1; i <= 1000; i++)
 		{
-			sum += length(spelling(i, false));
+			sum += spelling(i, false).length();
 		}
 		System.out.format("The answer with British format is: %d\n", sumAnd);
 		System.out.format("The answer without British format is: %d\n", sum);
